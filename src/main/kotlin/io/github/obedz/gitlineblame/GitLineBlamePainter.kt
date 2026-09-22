@@ -65,6 +65,9 @@ class EditorBlameController private constructor(
     @Volatile
     private var shownLine: Int = -1
 
+    // 最近一次触发查询的光标所在行，用于「同行走动不重查」的短路
+    private var lastCaretLine: Int = -1
+
     private var inlay: Inlay<*>? = null
 
     // 每次光标移动 +1；协程返回时校验是否仍是最新请求，避免旧结果覆盖新行
@@ -81,6 +84,13 @@ class EditorBlameController private constructor(
     }
 
     private fun onCaretMoved(line: Int) {
+        // 同一行内移动光标（含打字时逐格右移）不重新查 blame，
+        // 避免输入时 modificationStamp 变化触发重跑 git blame + inlay 闪动。
+        if (line == lastCaretLine) {
+            return
+        }
+        lastCaretLine = line
+
         val id = ++requestId
 
         val project: Project = editor.project ?: return
@@ -129,7 +139,9 @@ class EditorBlameController private constructor(
         }
         val lineEnd = editor.document.getLineEndOffset(line)
         log.info("show blame: author=${info.author}, line=$line")
-        inlay = editor.inlayModel.addInlineElement(lineEnd, false, BlameRenderer(info))
+        // 用 addAfterLineEndElement（行尾之后）而非 addInlineElement（行内）：
+        // 行内 inlay 会占据文本流位置，光标停在行尾继续输入时会被它卡住/干扰。
+        inlay = editor.inlayModel.addAfterLineEndElement(lineEnd, false, BlameRenderer(info))
         shownLine = line
     }
 

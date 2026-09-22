@@ -50,17 +50,17 @@ intellijPlatform {
         }
 
         description = """
-            在编辑器行尾显示当前光标所在行的最近一次 git 提交的作者、时间与提交信息。
-            轻量的 GitToolBox 行内 blame 替代方案。
-
             Shows the author, date-time and commit subject of the latest commit
             for the current line, right at the end of the line in the editor.
             A lightweight alternative to GitToolBox's in-line blame.
+
+            在编辑器行尾显示当前光标所在行的最近一次 git 提交的作者、时间与提交信息。
+            轻量的 GitToolBox 行内 blame 替代方案。
         """.trimIndent()
 
         changeNotes = """
-            首个版本。<br/>
-            First release.
+            First release.<br/>
+            首个版本。
         """.trimIndent()
 
         vendor {

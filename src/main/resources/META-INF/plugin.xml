@@ -1,0 +1,35 @@
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
+    <!-- id、名称、版本、依赖等由 build.gradle.kts 的 intellijPlatform.pluginConfiguration 生成 -->
+    <id>io.github.obedz.gitlineblame</id>
+    <name>Git Line Blame</name>
+    <version>0.1.0</version>
+    <vendor url="https://github.com/obedzheng" email="obed.zhengchao@gmail.com">obedz</vendor>
+
+    <icon>META-INF/pluginIcon.svg</icon>
+
+    <description><![CDATA[
+        在编辑器行尾显示当前光标所在行的最近一次 git 提交的作者、时间与提交信息。
+        轻量的 GitToolBox 行内 blame 替代方案。
+
+        Shows the author, date-time and commit subject of the latest commit
+        for the current line, right at the end of the line in the editor.
+        A lightweight alternative to GitToolBox's in-line blame.
+    ]]></description>
+
+    <change-notes><![CDATA[
+        首个版本。<br/>
+        First release.
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <!-- git blame 实现位于 vcs-git（Git4Idea）bundle 插件；代码直接引用 GitFileAnnotation，
+         故声明为必选依赖。Git 为 IDE 标配，不会给用户带来额外负担。 -->
+    <depends>Git4Idea</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <editorFactoryListener
+                implementation="io.github.obedz.gitlineblame.GitLineBlameListener"/>
+    </extensions>
+</idea-plugin>

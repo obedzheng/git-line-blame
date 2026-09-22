@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+# Gradle 分发包 zip（本机为加速下载绕过墙的本地分发，不应进仓库）
+gradle/wrapper/*.zip
+
+# IntelliJ Platform
+.intellijPlatform/
+.idea/
+*.iml
+
+# Kotlin
+.kotlin/
+
+# OS
+.DS_Store
+
+# 日志
+*.log
+hs_err_pid*
